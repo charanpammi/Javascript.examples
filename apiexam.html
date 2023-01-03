@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Weather API Example</title>
+  </head>
+  <body>
+
+    <h1>Weather API Example</h1>
+    <form id="weather-form">
+      <label for="city">City:</label>
+      <input type="text" id="city" name="city">
+      <button type="submit">Get Weather</button>
+    </form>
+    <div id="weather-data"></div>
+
+    <script>
+
+        
+      const apiKey = '028b070a775f95f3eca121e70536dd65';
+      const apiUrl = `https://api.openweathermap.org/data/2.5/weather?appid=${apiKey}`;
+
+      async function getWeather(city) {
+        const res = await fetch(`${apiUrl}&q=${city}`);
+        const data = await res.json();
+        return data;
+      }
+
+    //   event after clicking submit button
+
+      document.getElementById('weather-form').addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const city = document.getElementById('city').value;
+        const data = await getWeather(city);
+
+        //  Printing Output to div tag 
+
+        document.getElementById('weather-data').innerHTML = `
+          <p>Temperature: ${data.main.temp}</p>
+          <p>Humidity: ${data.main.humidity}</p>
+          <p>Description: ${data.weather[0].description}</p>
+        `;
+      });
+
+      
+    </script>
+  </body>
+</html>
